@@ -1,0 +1,29 @@
+# ROOT/src CMAKELISTS.TXT
+
+say_path_to_cmake()
+
+set(
+    sources
+    "main.c"
+    "game.c"
+    "game.h"
+    "board.c"
+    "board.h"
+    "board_view.h"
+    "board_view_text.c"
+    "player_manager_mock.c"
+    "player_manager.h"
+    "tictactoe_errors.c"
+    "tictactoe_errors.h"
+)
+
+set(
+    INCLUDE_DIRS
+)
+
+target_sources(${PROJECT_NAME} PRIVATE ${sources})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+foreach(dir ${INCLUDE_DIRS})
+    add_subdirectory(${dir})
+endforeach()
