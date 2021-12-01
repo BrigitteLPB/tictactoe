@@ -11,6 +11,7 @@ project(
 #include dir
 set(
     INCLUDE_DIRS
+    "libs/SDL2-2.0.18"
     "src"
 )
 
@@ -23,15 +24,14 @@ enable_testing()
 set(${PROJECT_NAME}_SOURCES "" CACHE INTERNAL "")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
-
 include(CMAKE_PROJECT_GET_SOURCES_functions)
 
 #   Find threads num
 include(ProcessorCount)
 ProcessorCount(core_num)
-message("<Working on ${core_num} threads processor>/n")
+message("<Working on ${core_num} threads processor>")
 
-# CODE 
+# CODE
 say_path_to_root_cmake()
 
 #   Create the main exe

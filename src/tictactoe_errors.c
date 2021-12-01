@@ -12,5 +12,5 @@
 void fatalError (const char *message)
 {
 	fprintf (stderr, "%s\n", message);
-	exit (1);
+	exit (EXIT_FAILURE);
 }

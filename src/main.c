@@ -6,14 +6,18 @@
  */
 
 #include "game.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 int main (void)
 {
+	printf("Hello World!\n");	// DEBUG
+	
 	Game_init ();
 
 	Game_loop ();
 
 	Game_free ();
 
-	return 0;
+	return EXIT_SUCCESS;
 }

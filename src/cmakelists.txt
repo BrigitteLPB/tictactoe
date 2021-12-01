@@ -2,23 +2,33 @@
 
 say_path_to_cmake()
 
-set(
+# set(
+#     sources
+#     "board_view_text.c"
+#     "board_view.h"
+#     "board.c"
+#     "board.h"
+#     "config.h"
+#     "game.c"
+#     "game.h"
+#     "main.c"
+#     "player_manager_mock.c"
+#     "player_manager.h"
+#     "tictactoe_errors.c"
+#     "tictactoe_errors.h"
+# )
+
+file(
+    GLOB
     sources
-    "main.c"
-    "game.c"
-    "game.h"
-    "board.c"
-    "board.h"
-    "board_view.h"
-    "board_view_text.c"
-    "player_manager_mock.c"
-    "player_manager.h"
-    "tictactoe_errors.c"
-    "tictactoe_errors.h"
+    *.c
+    *.h
 )
+
 
 set(
     INCLUDE_DIRS
+    
 )
 
 target_sources(${PROJECT_NAME} PRIVATE ${sources})

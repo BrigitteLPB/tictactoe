@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-#if defined CONFIG_TEXTUI
+#if CONFIG_TEXTUI
 
 void BoardView_init (void)
 {

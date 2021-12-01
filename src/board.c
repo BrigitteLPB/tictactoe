@@ -19,25 +19,25 @@
  */
 static bool isGameFinished (const PieceType boardSquares[3][3], Coordinate lastChangeX, Coordinate lastChangeY, GameResult *gameResult)
 {
-  // TODO: à compléter
+	// TODO: à compléter
 }
 
 void Board_init (SquareChangeCallback onSquareChange, EndOfGameCallback onEndOfGame)
 {
-  // TODO: à compléter
+	// TODO: à compléter
 }
 
 void Board_free ()
 {
-  // TODO: à compléter
+	// TODO: à compléter
 }
 
 PutPieceResult Board_putPiece (Coordinate x, Coordinate y, PieceType kindOfPiece)
 {
-  // TODO: à compléter
+	// TODO: à compléter
 }
 
 PieceType Board_getSquareContent (Coordinate x, Coordinate y)
 {
-  // TODO: à compléter
+	// TODO: à compléter
 }
