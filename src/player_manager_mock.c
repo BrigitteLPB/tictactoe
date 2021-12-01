@@ -8,8 +8,9 @@
 #include "board.h"
 #include <assert.h>
 #include <stdio.h>
+#include "config.h"
 
-#if defined CONFIG_PLAYER_MANAGER_MOCK
+#if CONFIG_PLAYER_MANAGER_MOCK
 
 void PlayerManager_init (void)
 {
