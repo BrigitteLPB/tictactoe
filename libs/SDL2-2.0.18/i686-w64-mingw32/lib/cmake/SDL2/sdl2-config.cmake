@@ -10,7 +10,7 @@ set(SDL2_PREFIX "${prefix}")
 set(SDL2_EXEC_PREFIX "${exec_prefix}")
 set(SDL2_LIBDIR "${libdir}")
 set(SDL2_INCLUDE_DIRS "${includedir}/SDL2")
-set(SDL2_LIBRARIES "-L${SDL2_LIBDIR}  -lmingw32 -lSDL2main -lSDL2 -mwindows")
+set(SDL2_LIBRARIES "-L${SDL2_LIBDIR}  -lmingw32 -lSDL2main -lSDL2")
 string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 
 if(NOT TARGET SDL2::SDL2)
@@ -18,7 +18,7 @@ if(NOT TARGET SDL2::SDL2)
 
   # Remove -lSDL2 as that is handled by CMake, note the space at the end so it does not replace e.g. -lSDL2main
   # This may require "libdir" beeing set (from above)
-  string(REPLACE "-lSDL2 " "" SDL2_EXTRA_LINK_FLAGS " -lmingw32 -lSDL2main -lSDL2 -mwindows ")
+  string(REPLACE "-lSDL2 " "" SDL2_EXTRA_LINK_FLAGS " -lmingw32 -lSDL2main -lSDL2")
   # also get rid of -lSDL2main, if you want to link against that use both SDL2::SDL2main and SDL2::SDL2 (in that order)
   # (SDL2Config.cmake has the same behavior)
   string(REPLACE "-lSDL2main" "" SDL2_EXTRA_LINK_FLAGS ${SDL2_EXTRA_LINK_FLAGS})
@@ -38,7 +38,7 @@ if(WIN32 AND NOT MSVC)
 
   add_library(SDL2::SDL2main INTERFACE IMPORTED)
   set_target_properties(SDL2::SDL2main PROPERTIES
-    INTERFACE_LINK_LIBRARIES "-L${SDL2_LIBDIR} -lmingw32 -lSDL2main -mwindows")
+    INTERFACE_LINK_LIBRARIES "-L${SDL2_LIBDIR} -lmingw32 -lSDL2main")
 
 else() # (not WIN32) or MSVC
 
