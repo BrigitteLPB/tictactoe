@@ -13,9 +13,10 @@
 
 	#define	TEST_log						0	// test log module
 	#define	TEST_errors						0	// test errors module
-	#define	TEST_board						1	// test errors module
+	#define	TEST_board						0	// test errors module
+	#define	TEST_boardView					1	// test errors module
 
-	#if TEST_APP && ((TEST_log + TEST_errors + TEST_board) != 1)
+	#if TEST_APP && ((TEST_log + TEST_errors + TEST_board + TEST_boardView) != 1)
 		#error	"multiple tests selected"
 	#endif
 
