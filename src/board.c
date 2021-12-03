@@ -1,16 +1,17 @@
 /*--- INCLUDE ---*/
-#include <assert.h>
 #include <stdlib.h>
 #include "board.h"
 #include "board_view.h"
 #include "config.h"
 #include "tictactoe_errors.h"
+#include "assert_m.h"
 
 #include "log.h"
 
 /*--- VARS AND CONSTS ---*/
 static PieceType game_board[MORPION_DIM][MORPION_DIM] = {0};
-
+static SquareChangeCallback onSquareChange_cb = NULL;
+static EndOfGameCallback onEndOfGame_cb = NULL;
 
 /*--- FUNCTIONS ---*/
 
@@ -70,13 +71,15 @@ static bool isGameFinished (const PieceType boardSquares[MORPION_DIM][MORPION_DI
 
 void Board_init (SquareChangeCallback onSquareChange, EndOfGameCallback onEndOfGame)
 {
-	// init the var
-	// game_board = (void *) calloc(MORPION_DIM * MORPION_DIM, sizeof(PieceType));
+	// init the board
 	for(int y=0; y < MORPION_DIM; y++){
 		for(int x=0; x <MORPION_DIM; x++){
 			game_board[y][x] = NONE;
 		}
 	}
+
+	onSquareChange_cb = onSquareChange;
+	onEndOfGame_cb = onEndOfGame;
 
 	BoardView_init();
 	log_m(INFO, "Board initialize");
@@ -85,20 +88,44 @@ void Board_init (SquareChangeCallback onSquareChange, EndOfGameCallback onEndOfG
 
 void Board_free ()
 {
-	// free(game_board);
 	BoardView_free();
 
-	log_m(INFO, "BoardView free");
+	log_m(INFO, "Board free");
 }
 
 PutPieceResult Board_putPiece (Coordinate x, Coordinate y, PieceType kindOfPiece)
 {
-	// TODO: à compléter
+	// check bounds
+	if(x >= 0 && x < MORPION_DIM && y >=0 && y < MORPION_DIM){
+		if(kindOfPiece != NONE){
+			if(game_board[y][x] == NONE){
+				game_board[y][x] = kindOfPiece;
+				
+				// calling the on change callbacks
+				if(onSquareChange_cb != NULL){
+					onSquareChange_cb(x, y, kindOfPiece);	
+				}
+
+				return PIECE_IN_PLACE;
+			}else{
+				return SQUARE_IS_NOT_EMPTY;
+			}
+		}else{
+			return SQUARE_IS_NOT_EMPTY;
+		}
+	}else{
+		fatalError((const char*)"trying to add a piece out of bounds\n");
+	}
 }
 
 PieceType Board_getSquareContent (Coordinate x, Coordinate y)
 {
-	// TODO: à compléter
+	// check bounds
+	if(x >= 0 && x < MORPION_DIM && y >=0 && y < MORPION_DIM){
+		return game_board[y][x];
+	}else{
+		fatalError((const char*)"trying to add a piece out of bounds\n");
+	}	
 }
 
 
@@ -125,9 +152,32 @@ void TEST_print_board(){
 	printf("\n");
 }
 
+/**
+ * @brief print a the changed case like {x,y} -> STATE, and its state + print the board
+ * 
+ * @param [in] x the x coordinate
+ * @param [in] y the y coordinate
+ * @param [in] change the new state of the case
+ */
+void printChange(Coordinate x, Coordinate y, PieceType change){
+	switch(change){
+		case NONE:
+			printf("{%d,%d} -> NONE\n", x, y);
+			break;
+		case CROSS:
+			printf("{%d,%d} -> CROSS\n", x, y);
+			break;
+		case CIRCLE:
+			printf("{%d,%d} -> CIRCLE\n", x, y);
+			break;
+
+	}
+}
+
 int main(int argc, char** argv){
 	/*--- INIT ---*/
-	Board_init(NULL, NULL);
+	log_init(stdout, fopen(getenv("LOG_FILE"), "a"));
+	Board_init(&printChange, NULL);
 
 
 	/*--- CODE ---*/
@@ -141,7 +191,7 @@ int main(int argc, char** argv){
 	game_board[0][2] = CROSS;
 	TEST_print_board();
 
-	assert(isGameFinished(game_board, 0, 1, &result) == true && result == CROSS_WINS && "Horizontal test");
+	assert_m(isGameFinished(game_board, 0, 1, &result) == true && result == CROSS_WINS, "Horizontal test");
 
 	// vertical wins for circles
 	printf("vetical test\n");
@@ -151,7 +201,7 @@ int main(int argc, char** argv){
 	game_board[2][1] = CIRCLE;
 	TEST_print_board();
 
-	assert(isGameFinished(game_board, 0, 1, &result) == true && result == CIRCLE_WINS && "vertical test");
+	assert_m(isGameFinished(game_board, 0, 1, &result) == true && result == CIRCLE_WINS, "vertical test");
 
 	// diagonal wins for circles
 	printf("diagonal test\n");
@@ -161,7 +211,15 @@ int main(int argc, char** argv){
 	game_board[2][0] = CROSS;
 	TEST_print_board();
 
-	assert(isGameFinished(game_board, 0, 1, &result) == true && result == CROSS_WINS && "diagonal test");
+	assert_m(isGameFinished(game_board, 1, 1, &result) == true && result == CROSS_WINS, "diagonal test");
+
+	// test set
+	Board_putPiece(2, 2, CROSS);
+	assert_m(game_board[2][2] == CROSS, "the {2,2} isn't a CROSS, error on set");
+
+	// test get
+	game_board[0][0] = CROSS;
+	assert_m(Board_getSquareContent(0, 0) == CROSS, "canno't get the {0,0} as a CROSS");
 
 
 	/*--- END ---*/

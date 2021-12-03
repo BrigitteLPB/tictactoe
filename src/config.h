@@ -15,7 +15,7 @@
 	#define	TEST_errors						0	// test errors module
 	#define	TEST_board						1	// test errors module
 
-	#if TEST_APP && ((TEST_log + TEST_errors + TEST_board) > 1)
+	#if TEST_APP && ((TEST_log + TEST_errors + TEST_board) != 1)
 		#error	"multiple tests selected"
 	#endif
 

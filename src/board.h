@@ -96,7 +96,7 @@ extern void Board_free ();
  * @pre y must be in [0..2]
  *
  * @retval PIECE_IN_PLACE the piece has been put in the square
- * @retval SQUARE_IS_NOT_EMPTY the piece cannot be put in the square as there is already one
+ * @retval SQUARE_IS_NOT_EMPTY the piece cannot be put in the square as there is already one or [kindOfPiece] == NONE
  */
 extern PutPieceResult Board_putPiece (Coordinate x, Coordinate y, PieceType kindOfPiece);
 
