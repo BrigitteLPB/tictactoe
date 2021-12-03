@@ -11,8 +11,6 @@
 #include "board_view.h"
 #include "log.h"
 
-
-
 void Game_init (void)
 {
 	Board_init(
