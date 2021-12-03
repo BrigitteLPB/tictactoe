@@ -20,7 +20,7 @@ void fatalError (const char *message)
 
 
 #if TEST_APP && TEST_errors
-void main(int argc, char** argv){
+int main(int argc, char** argv){
 	/*--- INIT ---*/
 	log_init(stdout, fopen((const char*) getenv("LOG_FILE"), "a"));
 
@@ -29,5 +29,6 @@ void main(int argc, char** argv){
 
 	/*--- END ---*/
 	log_free();
+	return EXIT_SUCCESS;
 }
 #endif
