@@ -1,9 +1,12 @@
 /*--- INCLUDE ---*/
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+#include "config.h"
 #include "log.h"
+
 
 /*--- VARS and CONSTS ---*/
 
@@ -15,7 +18,7 @@ static FILE* file_ptr = NULL;
 
 void log_init(FILE* console, FILE* fichier){
 	console_ptr = console;
-	file_ptr = fichier;
+	file_ptr = fichier;		
 }
 
 void log_free(){
@@ -23,7 +26,7 @@ void log_free(){
 	file_ptr = NULL;
 }
 
-void log_m(log_state_e type, char message[]){
+void log_m(log_state_e type, const char* message){
 	FILE *ptrs[] = {console_ptr, file_ptr};
 
 	for(int i = 0; i<sizeof(ptrs) / sizeof(ptrs[0]); i++){
@@ -66,3 +69,19 @@ void log_m(log_state_e type, char message[]){
 		}
 	}
 }
+
+#if (TEST_APP && TEST_log)
+void main(int argc, char** argv){
+	/*--- INIT ---*/
+	log_init(stdout, fopen((const char*) getenv("LOG_FILE"), "a"));
+
+	/*--- CODE ---*/
+	log_m(INFO, (const char*) "log info message");
+	log_m(WARN, (const char*) "log warn message");
+	log_m(ERROR, (const char*) "log error message");
+	log_m(DEBUG, (const char*) "log debug message");
+
+	/*--- END ---*/
+	log_free();
+}
+#endif

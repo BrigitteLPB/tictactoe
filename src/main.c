@@ -5,18 +5,20 @@
  * @author BrigitteLPB & Matteo LAFAYE
  */
 
-#include "game.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "config.h"
+
+#include "game.h"
 #include "log.h"
 
 
+#if !TEST_APP
 int main (int argc, char **argv)
 {
 	/*--- INIT ---*/
 	log_init(stdout, fopen(getenv("LOG_FILE"), "a"));
 	log_m(INFO, "hello world !");
-
 	Game_init();
 
 	/*--- CODE ---*/
@@ -28,3 +30,4 @@ int main (int argc, char **argv)
 
 	return EXIT_SUCCESS;
 }
+#endif

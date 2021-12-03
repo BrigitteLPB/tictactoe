@@ -4,29 +4,31 @@
  * @date 7 oct. 2016
  * @author jilias
  */
+#include <stdio.h>
 
 #include "player_manager.h"
-#include "board_view.h"
 #include "board.h"
-
-#include <stdio.h>
+#include "board_view.h"
+#include "log.h"
 
 
 
 void Game_init (void)
 {
-	// TODO: initialiser tous les modules
-	printf("Game_init\n");
+	Board_init(
+		BoardView_displaySquare,	// affichage des updates
+		BoardView_displayEndOfGame	// affichage du résultat
+	);
+
+	log_m(INFO, "Game initialize");
 }
 
 void Game_free (void)
 {
-	// TODO: libérer tous les modules
-	printf("Game_free\n");
+	log_m(INFO, "Game free");
 }
 
 void Game_loop (void)
 {
-	// TODO: à compléter
-	printf("Game_loop\n");
+	log_m(DEBUG, "Game loop");	// DEBUG
 }

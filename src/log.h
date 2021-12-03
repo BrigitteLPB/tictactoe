@@ -4,7 +4,9 @@
 	/*--- INLCUDE ---*/
 	#include <stdio.h>
 
+
 	/*--- VARS and CONSTS ---*/
+
 
 	/**
 	 * @brief les types de logs a effectuer
@@ -40,7 +42,7 @@
 	 * @param [in] type	le type de message a afficher
 	 * @param [in] message le message a afficher 
 	 */
-	void log_m(log_state_e type, char message[]);
+	void log_m(log_state_e type, const char* message);
 
 
 #endif

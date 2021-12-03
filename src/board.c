@@ -1,11 +1,23 @@
-#include "board.h"
+/*--- INCLUDE ---*/
 #include <assert.h>
+#include <stdlib.h>
+#include "board.h"
+#include "board_view.h"
+#include "config.h"
+
+#include "log.h"
+
+/*--- VARS AND CONSTS ---*/
+static PieceType **game_board;
+
+
+/*--- FUNCTIONS ---*/
 
 /**
  * Check if the game has to be ended. Only alignment from the last
  * modified square are checked.
  *
- * @param [in] boardSquares the board to check
+ * @param [in] boardSquares the board to check. board = [y[x]]
  * @param [in] lastChangeX the colum where the last piece has been put
  * @param [in] lastChangeY the row where the last piece has been put
  * @param [out] gameResult the winning status if the game has ended (value is not set if
@@ -17,19 +29,28 @@
  *
  * @return a boolean that tells if the game is finished
  */
-static bool isGameFinished (const PieceType boardSquares[3][3], Coordinate lastChangeX, Coordinate lastChangeY, GameResult *gameResult)
+static bool isGameFinished (const PieceType boardSquares[MORPION_DIM][MORPION_DIM], Coordinate lastChangeX, Coordinate lastChangeY, GameResult *gameResult)
 {
 	// TODO: à compléter
 }
+
 
 void Board_init (SquareChangeCallback onSquareChange, EndOfGameCallback onEndOfGame)
 {
-	// TODO: à compléter
+	// init the var
+	game_board = (void *) calloc(MORPION_DIM * MORPION_DIM, sizeof(PieceType));
+
+	BoardView_init();
+	log_m(INFO, "Board initialize");
 }
+
 
 void Board_free ()
 {
-	// TODO: à compléter
+	free(game_board);
+	BoardView_free();
+
+	log_m(INFO, "BoardView free");
 }
 
 PutPieceResult Board_putPiece (Coordinate x, Coordinate y, PieceType kindOfPiece)
