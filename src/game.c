@@ -55,6 +55,7 @@ void Game_init (void)
 		&PRIVATE_GAME_change_cb,	// affichage des updates
 		&PRIVATE_GAME_end_of_game_cb	// affichage du résultat
 	);
+	BoardView_init();
 	PlayerManager_init();
 
 	log_m(INFO, "Game initialize");
@@ -63,6 +64,7 @@ void Game_init (void)
 void Game_free (void)
 {
 	Board_free();
+	BoardView_free();
 	PlayerManager_free();
 	log_m(INFO, "Game free");
 }

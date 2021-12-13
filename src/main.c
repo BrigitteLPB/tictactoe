@@ -22,7 +22,7 @@ int main (int argc, char **argv)
 	Game_init();
 
 	/*--- CODE ---*/
-	Game_loop();
+	Game_loop();	// TODO 
 
 	/*--- END ---*/
 	Game_free();
