@@ -12,6 +12,7 @@ project(
 set(
     INCLUDE_DIRS
     "libs/SDL2-2.0.18"
+    "libs/SDL2_image-2.0.5"
     "src"
 )
 
