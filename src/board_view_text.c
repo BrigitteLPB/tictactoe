@@ -19,6 +19,7 @@
 #if CONFIG_TEXTUI
 /*--- VARS & CONSTS ---*/
 static PieceType graph_board[MORPION_DIM][MORPION_DIM] = {0};
+static bool show_warn_placement_msg = false;
 
 /*--- PROTOTYPES ---*/
 /**
@@ -109,12 +110,25 @@ void BoardView_displayEndOfGame (GameResult result)
 
 void BoardView_displayPlayersTurn (PieceType thisPlayer)
 {
-	// TODO: à compléter
+	BoardView_displayAll();
+	if(show_warn_placement_msg){
+		printf("Canno't put piece here !\n");
+		show_warn_placement_msg = false;
+	}
+
+	switch(thisPlayer){
+		case CROSS:
+			printf("CROSS turn\n");
+			break;
+		case CIRCLE:
+			printf("CRICLE turn\n");
+			break;
+	}
 }
 
 void BoardView_sayCannotPutPiece (void)
 {
-	printf("Canno't put piece here !\n");
+	show_warn_placement_msg = true;
 }
 
 

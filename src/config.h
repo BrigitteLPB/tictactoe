@@ -12,14 +12,14 @@
 
 
 	/*--- TESTS ---*/
-	#define TEST_APP						1	// switch the main in test mode
+	#define TEST_APP						0	// switch the main in test mode
 
 	#define	TEST_log						0	// test log module
 	#define	TEST_errors						0	// test errors module
-	#define	TEST_board						0	// test board module
+	#define	TEST_board						1	// test board module
 	#define	TEST_boardView					0	// test board_view module
 	#define	TEST_board_view_sdl				0	// test board_view_sdl module
-	#define	TEST_player_manager_mock		1	// test player_manager_mock module
+	#define	TEST_player_manager_mock		0	// test player_manager_mock module
 	#define TEST_player_manager_scanf		0	// test player_manager_scanf
 	#define TEST_player_manager_sdl			0	// test player_manager_sdl
 	#define TEST_check_end_of_game			0	// test CheckEndOfGame

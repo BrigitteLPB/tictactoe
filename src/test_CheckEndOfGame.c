@@ -8,9 +8,14 @@
  */
 
 // WARNING : ".c" file inclusion only allowed for unit tests !
-#include "board.c"
 #include "test_CheckEndOfGame.h"
 #include <stdio.h>
+#include "config.h"
+
+
+
+#if TEST_APP && TEST_check_end_of_game
+#include "board.c"
 
 typedef struct
 {
@@ -125,7 +130,6 @@ void testCheckEndOfGame (void)
 }
 
 
-#if TEST_APP && TEST_check_end_of_game
 int main(int agrc, char** argv){
 	/*--- INIT ---*/
 

@@ -7,11 +7,13 @@
 /*--- INCLUDE ---*/
 #include "config.h"
 #include "board.h"
+#include "board_view.h"
 #include "assert_m.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include "tictactoe_errors.h"
 
 #include "log.h"
 
@@ -19,16 +21,6 @@
 /*--- VARS and CONSTS ---*/
 #define MAX_INPUT_CHAR				128		// max size of the input str
 
-/**
- * Pointer of a function that can be called when after a player input a coordonate.
- *
- * @param [in] x the board's column where the square is
- * @param [in] y the board's row where the square is
- * @param [in] newContent the player symbol
- */
-typedef PutPieceResult (*ProcessPlayerInputCallback) (Coordinate x, Coordinate y, PieceType player);
-
-static ProcessPlayerInputCallback input_cb = NULL;
 static PieceType current_player = NONE;		// the player turn
 
 /**
@@ -38,6 +30,7 @@ static PieceType current_player = NONE;		// the player turn
  * @param [in] y the vertical coordonate [1..+infinity]
  */
 #define gotoxy(x,y) printf("\033[%d;%dH", (x), (y))
+
 
 #if CONFIG_PLAYER_MANAGER_MOCK
 /*--- PROTOTYPES ---*/
@@ -102,14 +95,12 @@ void PRIVATE_PlayerManager_removeEnters(char str[]){
 
 void PlayerManager_init (void)
 {
-	input_cb = &Board_putPiece;
 	current_player = CROSS;
 	log_m(INFO, "PlayerManager initialize");
 }
 
 void PlayerManager_free (void)
 {
-	input_cb = NULL;
 	current_player = NONE;
 	log_m(INFO, "PlayerManager free");
 }
@@ -117,11 +108,33 @@ void PlayerManager_free (void)
 void PlayerManager_oneTurn (void)
 {
 	if(current_player != NONE){
+		int x_pos;
+		int y_pos;
+		do{
+			BoardView_displayPlayersTurn(current_player);
+			
+			do{
+				x_pos = PRIVATE_PlayerManager_input_int(stdin, stdout, "X position [1..3]: ");
+			}while(x_pos < 0 || x_pos > MORPION_DIM);
 
+			do{
+				y_pos = PRIVATE_PlayerManager_input_int(stdin, stdout, "Y position [1..3]: ");
+			}while(y_pos < 0 || y_pos > MORPION_DIM);
+
+		}while(Board_putPiece(x_pos-1, y_pos-1, current_player) == SQUARE_IS_NOT_EMPTY);
 	}
 
+	// switching to other player
 	switch(current_player){
-		
+		case CROSS:
+			current_player = CIRCLE;
+			break;
+		case CIRCLE:
+			current_player = CROSS;
+			break;
+		default:
+			fatalError("[playerManager] Undifined token for the player");
+			break;
 	}
 }
 
