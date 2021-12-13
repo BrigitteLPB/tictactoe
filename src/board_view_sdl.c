@@ -12,7 +12,7 @@
 #include <SDL_image.h>
 #include "tictactoe_errors.h"
 
-#if defined CONFIG_SDLUI
+//#if defined CONFIG_SDLUI
 
 static SDL_Window *MainWindow;
 static SDL_Renderer *MainRenderer;
@@ -89,6 +89,8 @@ void BoardView_free (void)
 
 void BoardView_displayAll (void)
 {
+	renderImage(BackgroundImage,0,0);
+	BoardView_displaySquare();
 	/* utiliser "renderImage" pour afficher l'image de fond "BackgroundImage",
 	 * puis afficher l'ensemble des cases à l'aide de la fonction BoardView_displaySquare
 	 */
@@ -96,6 +98,12 @@ void BoardView_displayAll (void)
 
 void BoardView_displaySquare (Coordinate x, Coordinate y, PieceType kindOfPiece)
 {
+	switch(kindOfPiece){
+		case CROSS:
+			renderImage(SpriteX,x,y);
+		case CIRCLE:
+			renderImage(SpriteO,x,y);
+	}
 	/* utiliser "renderImage" pour afficher le sprite correspondant à kindOfPiece à
 	 * l'endroit correspondant aux coordonnées logiques "x" et "y".
 	 */
