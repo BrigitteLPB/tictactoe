@@ -12,7 +12,7 @@
 #include <SDL_image.h>
 #include "tictactoe_errors.h"
 
-//#if defined CONFIG_SDLUI
+#if defined CONFIG_SDLUI
 
 static SDL_Window *MainWindow;
 static SDL_Renderer *MainRenderer;
