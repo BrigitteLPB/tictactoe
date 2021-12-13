@@ -4,7 +4,7 @@
  * Players interaction's manager module
  *
  * @date 7/10/2016
- * @author Jonathan ILIAS-PILLET & Richard WOODWARD
+ * @author BrigitteLPB & Matteo LAFAYE
  */
 
 #if !defined PLAYER_MANAGER_H_

@@ -11,8 +11,7 @@
 #include <SDL.h>
 #include <stdbool.h>
 
-//#if defined CONFIG_PLAYER_MANAGER_SDL
-
+#if defined CONFIG_PLAYER_MANAGER_SDL
 void PlayerManager_init (void)
 {
 	assert (SDL_WasInit (SDL_INIT_VIDEO) != 0);
@@ -57,4 +56,18 @@ void PlayerManager_oneTurn (void)
 	while (!validMove);
 }
 
+#if TEST_APP && TEST_player_manager_sdl
+int main(int argc, char **argv){
+	/*--- INIT --*/
+	PlayerManager_init();
+
+
+	/*--- CODE ---*/
+
+
+	/*--- END ---*/
+	PlayerManager_free();
+	return EXIT_SUCCESS;  
+}
+#endif
 #endif // defined CONFIG_PLAYER_MANAGER_SCANF

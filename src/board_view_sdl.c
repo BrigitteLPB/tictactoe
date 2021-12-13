@@ -125,4 +125,16 @@ void BoardView_sayCannotPutPiece (void)
 	// TODO: vous pouvez améliorer ceci (lorsque le reste fonctionnera)
 }
 
+#if TEST_APP && TEST_board_view_sdl
+int main(int argc, char** argv){
+	/*--- INIT ---*/
+
+
+	/*--- CODE ---*/
+
+
+	/*--- END ---*/
+	return EXIT_SUCCESS;
+}
+#endif
 #endif // defined CONFIG_SDLUI

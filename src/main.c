@@ -2,22 +2,32 @@
  * @file main.c
  *
  * @date 7/10/2016
- * @author Jonathan ILIAS-PILLET & Richard WOODWARD
+ * @author BrigitteLPB & Matteo LAFAYE
  */
 
-#include "game.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "config.h"
 
-int main (void)
+#include "game.h"
+#include "log.h"
+
+
+#if !TEST_APP
+int main (int argc, char **argv)
 {
-	printf("Hello World!\n");	// DEBUG
-	
-	Game_init ();
+	/*--- INIT ---*/
+	log_init(stdout, fopen(getenv("LOG_FILE"), "a"));
+	log_m(INFO, "hello world !");
+	Game_init();
 
-	Game_loop ();
+	/*--- CODE ---*/
+	Game_loop();
 
-	Game_free ();
+	/*--- END ---*/
+	Game_free();
+	log_free();
 
 	return EXIT_SUCCESS;
 }
+#endif
