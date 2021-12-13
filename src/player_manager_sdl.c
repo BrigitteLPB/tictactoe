@@ -12,7 +12,6 @@
 #include <stdbool.h>
 
 #if defined CONFIG_PLAYER_MANAGER_SDL
-
 void PlayerManager_init (void)
 {
 	assert (SDL_WasInit (SDL_INIT_VIDEO) != 0);
@@ -24,8 +23,13 @@ void PlayerManager_free (void)
 
 static bool tryMove (int x, int y)
 {
-
-  // TODO: à compléter
+	if((x>153 && x<163) || (x>316 && x<326) || (y>153 && y<163) || (y>316 && y<326) ){
+		BoardView_sayCannotPutPiece();
+		return false;
+	}
+	//FONCTION NE FONCTIONNANT PAS, VERIFIER KindOfPiece
+	Board_putPiece(x,y,kindofPiece)
+	return true;
 }
 
 void PlayerManager_oneTurn (void)
@@ -42,9 +46,11 @@ void PlayerManager_oneTurn (void)
 		switch (event.type)
 		{
 			case SDL_WINDOWEVENT:
-				// TODO:  Fermeture de la fenêtre = quitter l'application
+				BoardView_free();
 				break;
-			  // TODO: à compléter
+			case SDL_MOUSEBUTTONDOWN:
+				validMove = tryMove(event.motion.x,event.motion.y);
+				break;
 		}
 	}
 	while (!validMove);
@@ -64,5 +70,4 @@ int main(int argc, char **argv){
 	return EXIT_SUCCESS;  
 }
 #endif
-
 #endif // defined CONFIG_PLAYER_MANAGER_SCANF
