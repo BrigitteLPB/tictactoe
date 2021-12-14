@@ -21,6 +21,7 @@ say_path_to_cmake()
 file(
     GLOB
     sources
+    CONFIGURE_DEPENDS 
     *.c
     *.h
 )
