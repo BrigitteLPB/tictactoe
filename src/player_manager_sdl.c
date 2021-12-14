@@ -4,14 +4,20 @@
  * @date 7 oct. 2016
  * @author jilias
  */
-
+/*--- INCLUDE ---*/
+#include "config.h"
 #include "board.h"
 #include "board_view.h"
 #include <assert.h>
 #include <SDL.h>
 #include <stdbool.h>
+#include "tictactoe_errors.h"
 
 #if defined CONFIG_PLAYER_MANAGER_SDL
+/*--- VARS & CONSTS ---*/
+static PieceType current_player = CROSS;
+
+/*--- FUNCTION ---*/
 void PlayerManager_init (void)
 {
 	assert (SDL_WasInit (SDL_INIT_VIDEO) != 0);
@@ -27,8 +33,25 @@ static bool tryMove (int x, int y)
 		BoardView_sayCannotPutPiece();
 		return false;
 	}
-	//FONCTION NE FONCTIONNANT PAS, VERIFIER KindOfPiece
-	Board_putPiece(x,y,kindofPiece)
+
+	// conversion SDL x/y to Game x/y
+	Coordinate x_game = 0;
+	Coordinate y_game = 0;
+
+
+	for(int xI=MORPION_DIM-1; xI>0; xI--){
+		if(x <= ((xI+1) * (WINDOWS_HEIGHT/MORPION_DIM)) && x >= xI * (WINDOWS_HEIGHT/MORPION_DIM)){
+			x_game = xI;
+		}
+	}
+
+	for(int yI=MORPION_DIM-1; yI>0; yI--){
+		if(y <= (yI+1) * (WINDOWS_HEIGHT/MORPION_DIM) && y >= yI * (WINDOWS_HEIGHT/MORPION_DIM)){
+			y_game = yI;
+		}
+	}
+
+	Board_putPiece(x_game,y_game,current_player);
 	return true;
 }
 
@@ -42,7 +65,8 @@ void PlayerManager_oneTurn (void)
 	{
 		validMove = false;
 		error = SDL_WaitEvent (&event);
-		assert (error == 1);
+		assert (error == 1);	// change with
+		
 		switch (event.type)
 		{
 			case SDL_WINDOWEVENT_CLOSE:
@@ -54,6 +78,19 @@ void PlayerManager_oneTurn (void)
 		}
 	}
 	while (!validMove);
+
+	// switching to other player
+	switch(current_player){
+		case CROSS:
+			current_player = CIRCLE;
+			break;
+		case CIRCLE:
+			current_player = CROSS;
+			break;
+		default:
+			fatalError("[playerManager] Undifined token for the player");
+			break;
+	}
 }
 
 #if TEST_APP && TEST_player_manager_sdl

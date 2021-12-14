@@ -1,12 +1,28 @@
 #ifndef CONFIG_H
 	#define CONFIG_H
 
-	#define CONFIG_SDLUI					0	// use the SDL
+	
+	#define CONFIG_SDLUI					1	// use the SDL
 	#if !CONFIG_SDLUI
 		#define CONFIG_PLAYER_MANAGER_MOCK	1	// config for player_manager_mock.c
 		#define CONFIG_PLAYER_MANAGER_SCNAF	1	// config for player_manager_scanf.c
 		#define CONFIG_TEXTUI				1	// config for board_view_text.c
+	#else
+		#define CONFIG_PLAYER_MANAGER_SDL	1	// SDL input
+
+		#define APP_NAME					"tic tac toe"	// the name of the app
+
+		/*--- ASSETS ---*/
+		#define PATH_TO_ASSETS				"./assets/"	// path to load assets
+		#define ASSET_BACKGROUND			"./assets/background.png"
+		#define ASSET_CROSS					"./assets/sprite_X.png"
+		#define ASSET_CIRCLE				"./assets/sprite_O.png"
+
+		/*--- UI SETTINGS ---*/
+		#define	WINDOWS_WIDTH				480
+		#define	WINDOWS_HEIGHT				480
 	#endif
+
 
 	#define	MORPION_DIM						3	// largeur et hauteur du morpion
 
