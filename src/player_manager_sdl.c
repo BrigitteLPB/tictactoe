@@ -48,10 +48,11 @@ void PlayerManager_oneTurn (void)
 	{
 		validMove = false;
 		error = SDL_WaitEvent (&event);
-		assert (error == 1);
+		assert (error == 1);	// change with
+		
 		switch (event.type)
 		{
-			case SDL_WINDOWEVENT:
+			case SDL_WINDOWEVENT_CLOSE:
 				BoardView_free();
 				break;
 			case SDL_MOUSEBUTTONDOWN:

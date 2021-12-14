@@ -101,6 +101,9 @@ void BoardView_init (void)
 		{
 			fatalError(SDL_GetError());
 		}
+
+		// init screen
+		BoardView_displayAll();
 }
 
 void BoardView_free (void)
