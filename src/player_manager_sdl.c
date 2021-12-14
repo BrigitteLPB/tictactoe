@@ -33,8 +33,25 @@ static bool tryMove (int x, int y)
 		BoardView_sayCannotPutPiece();
 		return false;
 	}
-	//FONCTION NE FONCTIONNANT PAS, VERIFIER KindOfPiece
-	Board_putPiece(x,y,current_player);
+
+	// conversion SDL x/y to Game x/y
+	Coordinate x_game = 0;
+	Coordinate y_game = 0;
+
+
+	for(int xI=MORPION_DIM-1; xI>0; xI--){
+		if(x <= ((xI+1) * (WINDOWS_HEIGHT/MORPION_DIM)) && x >= xI * (WINDOWS_HEIGHT/MORPION_DIM)){
+			x_game = xI;
+		}
+	}
+
+	for(int yI=MORPION_DIM-1; yI>0; yI--){
+		if(y <= (yI+1) * (WINDOWS_HEIGHT/MORPION_DIM) && y >= yI * (WINDOWS_HEIGHT/MORPION_DIM)){
+			y_game = yI;
+		}
+	}
+
+	Board_putPiece(x_game,y_game,current_player);
 	return true;
 }
 
