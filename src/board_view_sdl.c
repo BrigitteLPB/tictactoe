@@ -17,8 +17,7 @@
 
 #if defined CONFIG_SDLUI
 /*--- VARS & CONSTS ---*/
-static PieceType graph_board[MORPION_DIM][MORPION_DIM] = {0};
-static bool show_warn_placement_msg = false;
+// static PieceType graph_board[MORPION_DIM][MORPION_DIM] = {0};
 
 static SDL_Window *MainWindow;
 static SDL_Renderer *MainRenderer;
@@ -56,11 +55,11 @@ void BoardView_init (void)
 		int result;
 
 		// init module board
-		for(int y=0; y<MORPION_DIM; y++){
-			for(int x=0; x<MORPION_DIM; x++){
-				graph_board[y][x] = NONE;
-			}
-		}
+		// for(int y=0; y<MORPION_DIM; y++){
+		// 	for(int x=0; x<MORPION_DIM; x++){
+		// 		graph_board[y][x] = NONE;
+		// 	}
+		// }
 
 		// Initialize SDL
 		result = SDL_Init (SDL_INIT_VIDEO);
@@ -123,20 +122,20 @@ void BoardView_displayAll (void)
 	/* utiliser "renderImage" pour afficher l'image de fond "BackgroundImage",
 	 * puis afficher l'ensemble des cases à l'aide de la fonction BoardView_displaySquare
 	 */
-	for(int y=0; y<MORPION_DIM; y++){
-		for(int x=0; x<MORPION_DIM; x++){
-			switch(graph_board[y][x]){
-				case CROSS:
-					renderImage(SpriteO, x, y);
-					break;
-				case CIRCLE:
-					renderImage(SpriteX, x, y);
-					break;
-				default:
-					break;
-			}
-		}
-	}
+	// for(int y=0; y<MORPION_DIM; y++){
+	// 	for(int x=0; x<MORPION_DIM; x++){
+	// 		switch(graph_board[y][x]){
+	// 			case CROSS:
+	// 				renderImage(SpriteO, x, y);
+	// 				break;
+	// 			case CIRCLE:
+	// 				renderImage(SpriteX, x, y);
+	// 				break;
+	// 			default:
+	// 				break;
+	// 		}
+	// 	}
+	// }
 }
 
 void BoardView_displaySquare (Coordinate x, Coordinate y, PieceType kindOfPiece)
