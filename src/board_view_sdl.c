@@ -101,8 +101,10 @@ void BoardView_displaySquare (Coordinate x, Coordinate y, PieceType kindOfPiece)
 	switch(kindOfPiece){
 		case CROSS:
 			renderImage(SpriteX,x,y);
+			break;
 		case CIRCLE:
 			renderImage(SpriteO,x,y);
+			break;
 	}
 	/* utiliser "renderImage" pour afficher le sprite correspondant à kindOfPiece à
 	 * l'endroit correspondant aux coordonnées logiques "x" et "y".
