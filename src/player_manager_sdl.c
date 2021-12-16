@@ -69,7 +69,7 @@ void PlayerManager_oneTurn (void)
 		
 		switch (event.type)
 		{
-			case SDL_WINDOWEVENT_CLOSE:
+			case SDL_QUIT:
 				BoardView_free();
 				break;
 			case SDL_MOUSEBUTTONDOWN:
