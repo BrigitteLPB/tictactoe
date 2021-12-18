@@ -4,18 +4,21 @@
  * @date 7 oct. 2016
  * @author jilias
  */
-
 #include "config.h"
+#if CONFIG_SDLUI
+
+/*--- INCLUDE ---*/
 #include "board_view.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include <SDL.h>
-#include <SDL_image.h>
 #include "tictactoe_errors.h"
 #include "log.h"
+#include <SDL.h>
+#include <SDL_image.h>
 
-#if defined CONFIG_SDLUI
+
+
 /*--- VARS & CONSTS ---*/
 // static PieceType graph_board[MORPION_DIM][MORPION_DIM] = {0};
 

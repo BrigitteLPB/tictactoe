@@ -7,16 +7,17 @@
  * @copyright Copyright (c) 2021
  * 
  */
+#include "config.h"
+#if CONFIG_TEXTUI
+
 /*--- INCLUDE ---*/
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "board_view.h"
-#include "config.h"
 #include "log.h"
 
-#if CONFIG_TEXTUI
 /*--- VARS & CONSTS ---*/
 static PieceType graph_board[MORPION_DIM][MORPION_DIM] = {0};
 static bool show_warn_placement_msg = false;

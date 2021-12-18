@@ -4,8 +4,10 @@
  * @date 7 oct. 2016
  * @author jilias
  */
-/*--- INCLUDE ---*/
 #include "config.h"
+#if defined CONFIG_PLAYER_MANAGER_SDL
+
+/*--- INCLUDE ---*/
 #include "board.h"
 #include "board_view.h"
 #include <assert.h>
@@ -13,7 +15,6 @@
 #include <stdbool.h>
 #include "tictactoe_errors.h"
 
-#if defined CONFIG_PLAYER_MANAGER_SDL
 /*--- VARS & CONSTS ---*/
 static PieceType current_player = CROSS;
 

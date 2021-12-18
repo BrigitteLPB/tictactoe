@@ -77,3 +77,4 @@ void Game_loop (void)
 		PlayerManager_oneTurn();
 	}
 }
+
