@@ -52,8 +52,7 @@ static bool tryMove (int x, int y)
 		}
 	}
 
-	Board_putPiece(x_game,y_game,current_player);
-	return true;
+	return Board_putPiece(x_game,y_game,current_player) == PIECE_IN_PLACE;
 }
 
 void PlayerManager_oneTurn (void)
