@@ -51,6 +51,9 @@
             ],
             "problemMatcher": [
                 "$go"
+            ],
+            "dependsOn": [
+                "move assets"
             ]
         },
         {
@@ -86,6 +89,19 @@
                 "build"
             ],
             "group": "build"
+        },
+		{
+			"label": "move assets",
+			"type": "shell",
+			"windows": {
+				"command": "echo robocopy && .vscode\\move_assets.windows.cmd"
+			},
+			"linux":{
+				"command": "rsync"
+			}, 
+			"problemMatcher": [
+				"$go"
+			],
         },
 		{
 			"label": "clean",

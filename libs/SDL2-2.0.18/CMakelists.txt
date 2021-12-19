@@ -1,0 +1,69 @@
+# SDL-1.2.15
+# include(CMAKE_PROJECT_GET_SOURCES_functions)
+
+say_path_to_cmake()
+
+set(SDL_64Bits "OFF")
+set(SDL2 "ON")
+
+if (${SDL_64BIT})
+    # load 64 bits version of SDL
+    set(path_to_SDL "x86_64-w64-mingw32")
+    message("64 bits choosen: ${path_to_SDL}")
+else()
+    # load 32 bits version of SDL*
+    set(path_to_SDL "i686-w64-mingw32")
+    message("32 bits choosen: ${path_to_SDL}")
+endif()
+
+if(${SDL2})
+    message("Working on SDL2")
+    
+    set(SDL2_PATH ${CMAKE_CURRENT_SOURCE_DIR}/${path_to_SDL})
+    set(SDL2_INCLUDE_DIR ${SDL2_PATH}/include)
+    set(SDL2_LIB_DIR ${SDL2_PATH}/lib)
+    set(SDL2_BIN_DIR ${SDL2_PATH}/bin)
+    
+    message(${SDL2_LIB_DIR}/cmake/SDL2)
+
+    list(APPEND CMAKE_MODULE_PATH ${SDL2_LIB_DIR}/cmake/SDL2)
+    include(sdl2-config)
+
+    target_include_directories(
+        ${PROJECT_NAME}
+        PRIVATE
+        ${SDL2_INCLUDE_DIR}/SDL2
+    )
+    
+    target_link_libraries(${PROJECT_NAME} 
+        PRIVATE SDL2::SDL2
+        PRIVATE SDL2::SDL2main
+    )
+
+    file(
+        COPY ${SDL2_BIN_DIR}/SDL2.dll
+        DESTINATION ${CMAKE_BINARY_DIR}
+    )
+
+else()
+    message("Working on SDL1")
+
+    target_include_directories(
+        ${PROJECT_NAME}
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/${path_to_SDL}/include/SDL
+    )
+
+    file(
+        COPY ${CMAKE_CURRENT_SOURCE_DIR}/${path_to_SDL}/bin/SDL.dll
+        DESTINATION ${CMAKE_BINARY_DIR}
+    )
+
+    target_link_libraries(
+        ${PROJECT_NAME}
+        PRIVATE
+        ${CMAKE_CXX_COMPILER}/../../lib/libmingw32.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/${path_to_SDL}/lib/libSDLmain.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/${path_to_SDL}/lib/libSDL.dll.a
+    )
+endif()
