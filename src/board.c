@@ -146,15 +146,12 @@ void Board_init (SquareChangeCallback onSquareChange, EndOfGameCallback onEndOfG
 	onSquareChange_cb = onSquareChange;
 	onEndOfGame_cb = onEndOfGame;
 
-	BoardView_init();
 	log_m(INFO, "Board initialize");
 }
 
 
 void Board_free ()
 {
-	BoardView_free();
-
 	log_m(INFO, "Board free");
 }
 

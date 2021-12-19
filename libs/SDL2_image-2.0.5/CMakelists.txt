@@ -1,0 +1,48 @@
+# SDL-1.2.15
+# include(CMAKE_PROJECT_GET_SOURCES_functions)
+
+say_path_to_cmake()
+
+set(SDL_image_64Bits "OFF")
+
+if (${SDL_image_64Bits})
+    # load 64 bits version of SDL
+    set(path_to_SDL_image "x86_64-w64-mingw32")
+    message("SDL2_image - 64 bits choosen: ${path_to_SDL_image}")
+else()
+    # load 32 bits version of SDL*
+    set(path_to_SDL_image "i686-w64-mingw32")
+    message("SDL2_image - 32 bits choosen: ${path_to_SDL_image}")
+endif()
+
+message("Working on SDL2_image")
+
+set(SDL2_image_PATH ${CMAKE_CURRENT_SOURCE_DIR}/${path_to_SDL_image})
+set(SDL2_image_INCLUDE_DIR ${SDL2_image_PATH}/include)
+set(SDL2_image_LIB_DIR ${SDL2_image_PATH}/lib)
+set(SDL2_image_BIN_DIR ${SDL2_image_PATH}/bin)
+
+list(APPEND CMAKE_MODULE_PATH ${SDL2_image_LIB_DIR}/cmake/SDL2_image)
+include(sdl2_image-config)
+
+target_include_directories(
+    ${PROJECT_NAME}
+    PRIVATE
+    ${SDL2_image_INCLUDE_DIR}/SDL2
+)
+
+target_link_libraries(${PROJECT_NAME} 
+    PRIVATE SDL2::image
+)
+
+file(
+    COPY 
+        ${SDL2_image_BIN_DIR}/libjpeg-9.dll
+        ${SDL2_image_BIN_DIR}/libpng16-16.dll
+        ${SDL2_image_BIN_DIR}/libtiff-5.dll
+        ${SDL2_image_BIN_DIR}/libwebp-7.dll
+        ${SDL2_image_BIN_DIR}/SDL2_image.dll
+        ${SDL2_image_BIN_DIR}/zlib1.dll
+    DESTINATION 
+        ${CMAKE_BINARY_DIR}
+)
