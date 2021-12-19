@@ -1,0 +1,1 @@
+gcc test/testSDL.c -Ilibs/SDL2-2.0.18/i686-w64-mingw32/include/SDL2 -Llibs/SDL2-2.0.18/i686-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2 -mwindows -o build/testSDL.exe 
