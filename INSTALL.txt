@@ -1,0 +1,11 @@
+ce fichier récapitule l'installation et la compilation.
+
+
+AVEC CMAKE :
+/!\ nécessite l'installation de CMake
+
+Il faut lancé le fichier de commandes build_debug.cmd pour construire l'application en debug.
+Pour une version de production lancé le fichier de commandes build.cmd
+
+AVEC GCC :
+seul le fichier de commandes build_gcc.cmd est disponnible, lancé le en console et déplacez-vous dans le dossier de build où l'application s'est compilée
