@@ -27,8 +27,34 @@ static SDL_Renderer *MainRenderer;
 static SDL_Surface *BackgroundImage;
 static SDL_Surface *SpriteO;
 static SDL_Surface *SpriteX;
+static SDL_Surface *SpriteWin;
+static SDL_Surface *SpriteDraw;
 
 /*--- FONCTIONS ---*/
+/**
+ * @brief render a image with SDL position
+ * 
+ * @param [in] image pointer to a SDL IMG 
+ * @param [in] x x pos 
+ * @param [in] y y pos
+ */
+static void renderImage_truePos (SDL_Surface *image, int x, int y)
+{
+	SDL_Texture *aTexture;
+	aTexture = SDL_CreateTextureFromSurface(MainRenderer, image);
+	assert (aTexture != NULL);
+	SDL_Rect pos = {
+		x, 
+		y, 
+		image->w, 
+		image->h
+	};
+
+	SDL_RenderCopy(MainRenderer, aTexture, 0, &pos);
+	SDL_RenderPresent(MainRenderer);
+	SDL_DestroyTexture(aTexture);
+}
+
 /**
  * @brief render a image
  * 
@@ -38,19 +64,7 @@ static SDL_Surface *SpriteX;
  */
 static void renderImage (SDL_Surface *image, int x, int y)
 {
-	SDL_Texture *aTexture;
-	aTexture = SDL_CreateTextureFromSurface(MainRenderer, image);
-	assert (aTexture != NULL);
-	SDL_Rect pos = {
-		x*(WINDOWS_HEIGHT/MORPION_DIM), 
-		y*(WINDOWS_HEIGHT/MORPION_DIM), 
-		image->w, 
-		image->h
-	};
-
-	SDL_RenderCopy(MainRenderer, aTexture, 0, &pos);
-	SDL_RenderPresent(MainRenderer);
-	SDL_DestroyTexture(aTexture);
+	renderImage_truePos(image, x*(WINDOWS_HEIGHT/MORPION_DIM), y*(WINDOWS_HEIGHT/MORPION_DIM));
 }
 
 void BoardView_init (void)
@@ -89,6 +103,13 @@ void BoardView_init (void)
 		SpriteX = IMG_Load (ASSET_CROSS);
 		if (SpriteX == NULL)
 			fatalError(IMG_GetError ());
+		SpriteWin = IMG_Load (ASSET_WIN);
+		if (SpriteWin == NULL)
+			fatalError(IMG_GetError ());
+		SpriteDraw = IMG_Load (ASSET_DRAW);
+		if (SpriteDraw == NULL)
+			fatalError(IMG_GetError ());
+
 
 		// Creates the window
 		MainWindow = SDL_CreateWindow (APP_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOWS_WIDTH, WINDOWS_HEIGHT, 0);
@@ -121,24 +142,10 @@ void BoardView_free (void)
 
 void BoardView_displayAll (void)
 {
-	renderImage(BackgroundImage,0,0);
+	renderImage_truePos(BackgroundImage,0,0);
 	/* utiliser "renderImage" pour afficher l'image de fond "BackgroundImage",
 	 * puis afficher l'ensemble des cases à l'aide de la fonction BoardView_displaySquare
 	 */
-	// for(int y=0; y<MORPION_DIM; y++){
-	// 	for(int x=0; x<MORPION_DIM; x++){
-	// 		switch(graph_board[y][x]){
-	// 			case CROSS:
-	// 				renderImage(SpriteO, x, y);
-	// 				break;
-	// 			case CIRCLE:
-	// 				renderImage(SpriteX, x, y);
-	// 				break;
-	// 			default:
-	// 				break;
-	// 		}
-	// 	}
-	// }
 }
 
 void BoardView_displaySquare (Coordinate x, Coordinate y, PieceType kindOfPiece)
@@ -158,8 +165,39 @@ void BoardView_displaySquare (Coordinate x, Coordinate y, PieceType kindOfPiece)
 
 void BoardView_displayEndOfGame (GameResult result)
 {
-	// TODO test SDL
-	SDL_Delay (2000); // TODO: vous pouvez améliorer ceci (lorsque le reste fonctionnera)
+	renderImage_truePos(BackgroundImage, 0, 0);
+	switch(result){
+		case DRAW:
+			renderImage_truePos(SpriteDraw, (WINDOWS_WIDTH - SpriteDraw->w)/2, (WINDOWS_HEIGHT - SpriteDraw->h)/2);
+			break;
+		case CIRCLE_WINS:
+			renderImage(SpriteO, 1, 0);
+			renderImage_truePos(SpriteWin, (WINDOWS_WIDTH - SpriteWin->w)/2, (WINDOWS_HEIGHT - SpriteWin->h)/2);
+			break;
+		case CROSS_WINS:
+			renderImage(SpriteX, 1, 0);
+			renderImage_truePos(SpriteWin, (WINDOWS_WIDTH - SpriteWin->w)/2, (WINDOWS_HEIGHT - SpriteWin->h)/2);
+			break;
+	}
+
+	bool validMove = false;
+	SDL_Event event;
+
+	do{
+		int error = SDL_WaitEvent (&event);
+		if(error == 0){
+			fatalError("error during SDL_WaitEvent (BoardView_displayEndOfGame)");
+		}
+		
+		switch (event.type)
+		{
+			case SDL_QUIT:
+			case SDL_MOUSEBUTTONDOWN:
+				validMove = true;
+				break;
+		}
+	}
+	while (!validMove);
 }
 
 void BoardView_displayPlayersTurn (PieceType thisPlayer)
@@ -182,12 +220,13 @@ void BoardView_sayCannotPutPiece (void)
 #if TEST_APP && TEST_board_view_sdl
 int main(int argc, char** argv){
 	/*--- INIT ---*/
-
+	BoardView_init();
 
 	/*--- CODE ---*/
-
+	BoardView_displayEndOfGame(CIRCLE_WINS);
 
 	/*--- END ---*/
+	BoardView_free();
 	return EXIT_SUCCESS;
 }
 #endif
