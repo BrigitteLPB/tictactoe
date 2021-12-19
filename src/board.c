@@ -157,30 +157,27 @@ void Board_free ()
 
 PutPieceResult Board_putPiece (Coordinate x, Coordinate y, PieceType kindOfPiece)
 {
-	PutPieceResult ret = SQUARE_IS_NOT_EMPTY;
 	// check bounds
 	if(x >= 0 && x < MORPION_DIM && y >=0 && y < MORPION_DIM){
 		
 		if(kindOfPiece != NONE){
 			if(game_board[y][x] == NONE){
 				game_board[y][x] = kindOfPiece;
-				ret = PIECE_IN_PLACE;
-				
+
+				if(onSquareChange_cb != NULL){
+					onSquareChange_cb(x, y, kindOfPiece);	
+				}
 
 				GameResult res = DRAW;
 				if(isGameFinished(game_board, x, y, &res) && onEndOfGame_cb != NULL){
 					onEndOfGame_cb(res);
-					return ret;	// on break ici pour ne pas faire tourner le onSquareChange
 				}
+
+				return PIECE_IN_PLACE;
 			}
 		}
 
-		// calling the on change callbacks
-		if(onSquareChange_cb != NULL){
-			onSquareChange_cb(x, y, kindOfPiece);	
-		}
-
-		return ret;
+		return SQUARE_IS_NOT_EMPTY;
 	}else{
 		fatalError((const char*)"trying to add a piece out of bounds\n");
 	}
